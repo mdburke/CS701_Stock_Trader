@@ -5,12 +5,31 @@ html,body {
   min-height:100%;
 }
 
-.quarter{
-  width:50%;
-  height:100%;
-  float:left;
+.contents {
+  text-align:center;
+  margin: 20px;
 }
-.contents{
-  height:50%;
-  width:100%;
+
+.btm_row {
+  min-height: 400px;
 }
+
+#watchlist {
+  padding: 0;
+}
+
+#watchlist table {
+  margin: auto;
+  width: 100%;
+}
+
+#stock_details {
+  padding: 0;
+}
+
+#stock_details table {
+  margin: auto;
+  width: 100%;
+}
+
+
