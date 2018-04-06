@@ -14,22 +14,4 @@ html,body {
   min-height: 400px;
 }
 
-#watchlist {
-  padding: 0;
-}
-
-#watchlist table {
-  margin: auto;
-  width: 100%;
-}
-
-#stock_details {
-  padding: 0;
-}
-
-#stock_details table {
-  margin: auto;
-  width: 100%;
-}
-
 
