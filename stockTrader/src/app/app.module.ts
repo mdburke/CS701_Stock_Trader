@@ -7,6 +7,8 @@ import { ChartComponent } from './chart/chart.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { StockDetailsComponent } from './stock-details/stock-details.component';
 import { SearchComponent } from './search/search.component';
+import {Form, FormsModule} from '@angular/forms';
+import {TradeKingService} from "./trade-king.service";
 
 
 @NgModule({
@@ -18,9 +20,10 @@ import { SearchComponent } from './search/search.component';
     SearchComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [TradeKingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

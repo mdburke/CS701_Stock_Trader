@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import * as oauth from '../../../node_modules/oauth'
 import * as oauth from 'oauth';
 import {secrets} from "../../environments/secrets";
+import {environment} from "../../environments/environment";
+import {TradeKingService} from "../trade-king.service";
 
 @Component({
   selector: 'app-search',
@@ -10,29 +11,28 @@ import {secrets} from "../../environments/secrets";
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  tickerSymbol: string;
+  stockData: any;
+
+  constructor(private tradeKingService: TradeKingService) {
+    this.tickerSymbol = "";
+  }
 
   ngOnInit() {
-    let tradeking_consumer = new oauth.OAuth(
-      "https://developers.tradeking.com/oauth/request_token",
-      "https://developers.tradeking.com/oauth/access_token",
-      secrets.auth.consumer_key,
-      secrets.auth.consumer_secret,
-      "1.0",
-      "http://mywebsite.com/tradeking/callback",
-      "HMAC-SHA1"
-    );
+    this.getStockData();
+  }
 
-    tradeking_consumer.get(
-      secrets.auth.api_url+'/market/ext/quotes.json?symbols=aapl',
-      secrets.auth.access_token,
-      secrets.auth.access_secret,
-      function(error, data, response) {
-        // Parse the JSON data
-        let account_data = JSON.parse(data);
-        // Display the response
-        console.log(account_data.response);
-      };
+  getStockData(): void {
+    this.tradeKingService.getStockData()
+      .subscribe(data => {
+        this.stockData = data
+        console.log(this.stockData);
+      });
+  }
+
+  update() {
+    this.stockData = this.tradeKingService.currentData;
+    // console.log(this.stockData);
   }
 
 }

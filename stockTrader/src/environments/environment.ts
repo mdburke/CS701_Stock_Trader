@@ -4,5 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  urls: {
+    trade_king_request: "https://developers.tradeking.com/oauth/request_token",
+    trade_king_access: "https://developers.tradeking.com/oauth/access_token"
+  }
 };
