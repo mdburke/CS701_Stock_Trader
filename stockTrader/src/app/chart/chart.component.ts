@@ -24,6 +24,7 @@ export class ChartComponent implements OnInit {
     this.symbol = tradeKingService.getTickerSymbol();
     this.tradeKingSubscription = this.tradeKingMessageService.getMessage().subscribe(message => {
       this.symbol = message.symbol;
+      Plotly.purge(document.getElementById("plotly"));
       this.alphaVantageService.updateTicker(this.symbol);
     });
     this.alphaVantageSubscription = this.alphaVantageMessageService.getMessage().subscribe(message => {
@@ -33,28 +34,30 @@ export class ChartComponent implements OnInit {
   }
 
   ngOnInit() {
+    Plotly.purge(document.getElementById("plotly"));
   }
 
   updateChart() {
-    let div = document.getElementById('chart');
+    let div = document.getElementById('plotly');
 
     if (this.data) {
-      console.log(this.data);
       let chartData = [{
         x: this.data.dates,
         close: this.data.closes,
-        decreasing: {line: {color: '#7F7F7F'}},
         high: this.data.highs,
-        increasing: {line: {color: '#17BECF'}},
-        line: {color: 'rgba(31,119,180,1)'},
         low: this.data.lows,
         open: this.data.opens,
+        line: {color: 'rgba(31,119,180,1)'},
+        decreasing: {line: {color: '#c0392b'}},
+        increasing: {line: {color: '#2ecc71'}},
         type: 'candlestick',
         xaxis: 'x',
         yaxis: 'y'
       }];
 
       let layout = {
+        // plot_bgcolor: '#ecf0f1',
+        // paper_bgcolor: '#ecf0f1',
         dragmode: 'zoom',
         margin: {
           r: 10,
@@ -66,8 +69,6 @@ export class ChartComponent implements OnInit {
         xaxis: {
           autorange: true,
           domain: [0, 1],
-          range: ['2017-11-10', '2018-04-06'],
-          rangeslider: { range: ['2017-11-10', '2018-04-06']},
           title: 'Date',
           type: 'date'
         },
