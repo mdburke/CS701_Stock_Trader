@@ -1,6 +1,6 @@
 <div id="stock_details">
   <h3>Stock Details</h3>
-  <table class="table-bordered">
+  <table class="table-bordered" *ngIf="stockData; else elseBlock">
     <tr>
       <th>Symbol</th>
       <th>Last</th>
@@ -30,4 +30,7 @@
       <td>{{stockData.eps}}</td>
     </tr>
   </table>
+  <ng-template #elseBlock>
+    Loading...
+  </ng-template>
 </div>

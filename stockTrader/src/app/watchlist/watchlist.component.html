@@ -10,22 +10,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>AMZN</td>
-      <td>1329</td>
-      <td>1327</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>GOOG</td>
-      <td>1013</td>
-      <td>1011</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>IBM</td>
-      <td>150</td>
-      <td>152</td>
+    <tr *ngFor="let stock of stocks; let i = index;" (click)="update(stock.symbol)">
+      <td>{{ stock.symbol | uppercase }}</td>
+      <td>N/A</td>
+      <td>N/A</td>
       <td></td>
     </tr>
     </tbody>
