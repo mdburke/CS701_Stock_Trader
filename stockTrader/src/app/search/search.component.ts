@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as oauth from 'oauth';
-import {secrets} from "../../environments/secrets";
-import {environment} from "../../environments/environment";
-import {TradeKingService} from "../trade-king.service";
+import {TradeKingService} from "../services/trade-king.service";
+import {Observable} from "rxjs/Observable";
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-search',
@@ -11,28 +10,32 @@ import {TradeKingService} from "../trade-king.service";
 })
 export class SearchComponent implements OnInit {
 
-  tickerSymbol: string;
-  stockData: any;
+  private tickerSymbol: string;
+  private stockData: any;
 
   constructor(private tradeKingService: TradeKingService) {
     this.tickerSymbol = "";
   }
 
   ngOnInit() {
-    this.getStockData();
+    this.updateStockData();
   }
 
-  getStockData(): void {
+  updateStockData(): void {
     this.tradeKingService.getStockData()
       .subscribe(data => {
-        this.stockData = data
+        this.stockData = data;
         console.log(this.stockData);
       });
   }
 
   update() {
-    this.stockData = this.tradeKingService.currentData;
-    // console.log(this.stockData);
+    this.tradeKingService.updateTickerSymbol(this.tickerSymbol);
+    this.stockData = this.tradeKingService.getStockData()
+      .subscribe(data => {
+        this.stockData = data;
+        console.log(this.stockData);
+      });
   }
 
 }
