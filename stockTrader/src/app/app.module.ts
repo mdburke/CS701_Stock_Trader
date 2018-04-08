@@ -9,6 +9,7 @@ import { StockDetailsComponent } from './stock-details/stock-details.component';
 import { SearchComponent } from './search/search.component';
 import {Form, FormsModule} from '@angular/forms';
 import {TradeKingService} from "./services/trade-king.service";
+import {MessageService} from "./services/message.service";
 
 
 @NgModule({
@@ -23,7 +24,10 @@ import {TradeKingService} from "./services/trade-king.service";
     BrowserModule,
     FormsModule
   ],
-  providers: [TradeKingService],
+  providers: [
+    TradeKingService,
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
