@@ -9,11 +9,11 @@
       <th>Today's Volume</th>
     </tr>
     <tr>
-      <td>OSTK</td>
-      <td>32.45</td>
-      <td>-$0.40</td>
-      <td>33.50</td>
-      <td>4.3M</td>
+      <td>{{stockData.symbol}}</td>
+      <td>{{stockData.last}}</td>
+      <td>{{stockData.dayChange}}</td>
+      <td>{{stockData.open}}</td>
+      <td>{{stockData.volume}}</td>
     </tr>
     <tr>
       <th>Company Name</th>
@@ -23,11 +23,11 @@
       <th>Earnings per share</th>
     </tr>
     <tr>
-      <td>Overstock.com, Inc.</td>
-      <td>NASDAQ</td>
-      <td>74</td>
-      <td>175</td>
-      <td>7</td>
+      <td>{{stockData.companyName}}</td>
+      <td>{{stockData.exchange}}</td>
+      <td>{{stockData.vwap}}</td>
+      <td>{{stockData.adp_200}}</td>
+      <td>{{stockData.eps}}</td>
     </tr>
   </table>
 </div>
