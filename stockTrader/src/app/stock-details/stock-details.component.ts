@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
-import {MessageService} from "../services/message.service";
 import {TickerData} from "../models/TickerData";
+import { TradeKingMessageService } from "../services/tradeKingMessage.service";
 
 @Component({
   selector: 'app-stock-details',
@@ -12,7 +12,7 @@ export class StockDetailsComponent implements OnInit {
   private stockData: TickerData;
   private subscription: Subscription;
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: TradeKingMessageService) {
     this.subscription = this.messageService.getMessage().subscribe(message => { this.stockData = message });
   }
 

@@ -1,9 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TradeKingService} from "../services/trade-king.service";
-import {Observable} from "rxjs/Observable";
-import {Subscription} from 'rxjs/Subscription';
-import {FormControl} from "@angular/forms";
-import { MessageService } from "../services/message.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TradeKingService } from "../services/trade-king.service";
+import { Subscription } from 'rxjs/Subscription';
+import { TradeKingMessageService } from "../services/tradeKingMessage.service";
 
 @Component({
   selector: 'app-search',
@@ -15,7 +13,7 @@ export class SearchComponent implements OnInit {
   private tickerSymbol: string;
   private subscription: Subscription;
 
-  constructor(private tradeKingService: TradeKingService, private messageService: MessageService) {
+  constructor(private tradeKingService: TradeKingService, private messageService: TradeKingMessageService) {
     this.subscription = this.messageService.getMessage().subscribe(message => { this.stockData = message });
     this.tickerSymbol = "aapl";
   }

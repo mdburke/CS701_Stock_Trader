@@ -1,13 +1,11 @@
+import { TradeKingMessageService } from "./tradeKingMessage.service";
 import {TickerData} from "../models/TickerData";
 import {Injectable} from '@angular/core';
 import * as oauth from 'oauth';
 import {secrets} from "../../environments/secrets";
 import {environment} from "../../environments/environment";
-import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
-import {Observer} from "rxjs/Observer";
-import {MessageService} from "./message.service";
 
 @Injectable()
 export class TradeKingService {
@@ -15,7 +13,7 @@ export class TradeKingService {
   private tickerSymbol: string;
   private currentData: TickerData;
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: TradeKingMessageService) {
     this.tickerSymbol = 'aapl';
     this.api_consumer = new oauth.OAuth(
       environment.urls.trade_king_request,
@@ -43,13 +41,16 @@ export class TradeKingService {
     this.getStockData();
   }
 
+  getTickerSymbol(): string {
+    return this.tickerSymbol;
+  }
+
   getStockData(): void {
     this.api_consumer.get(
       secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbol,
       secrets.auth.access_token,
       secrets.auth.access_secret,
       (error, data, response) => {
-        console.log("get stock data callback");
         this.currentData = this.convertJSONData(JSON.parse(data));
         this.sendMessage(this.currentData);
       }

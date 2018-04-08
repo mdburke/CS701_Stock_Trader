@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TradeKingService} from "../services/trade-king.service";
+import { TradeKingService } from "../services/trade-king.service";
 
 @Component({
   selector: 'app-watchlist',
