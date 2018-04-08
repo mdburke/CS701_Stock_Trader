@@ -11,22 +11,13 @@ import { MessageService } from "../services/message.service";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  message: any;
-  subscription: Subscription;
-
-  results: Observable<any>;
-  searchEvent: EventEmitter<any> = new EventEmitter();
-
-  private searchBox: FormControl = new FormControl();
-  private tickerSymbol: string;
   private stockData: any;
+  private tickerSymbol: string;
+  private subscription: Subscription;
 
   constructor(private tradeKingService: TradeKingService, private messageService: MessageService) {
-    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message });
+    this.subscription = this.messageService.getMessage().subscribe(message => { this.stockData = message });
     this.tickerSymbol = "aapl";
-    // this.searchBox
-    //   .valueChanges
-    //   .subscribe(event => this.searchEvent.emit(event));
   }
 
   ngOnInit() {
@@ -39,13 +30,6 @@ export class SearchComponent implements OnInit {
 
   update() {
     this.tradeKingService.updateTickerSymbol(this.tickerSymbol);
-    // this.tradeKingService.getStockData();
-    // this.tradeKingService.updateTickerSymbol(this.tickerSymbol);
-    // this.stockData = this.tradeKingService.getStockData()
-    //   .subscribe(data => {
-    //     this.stockData = data;
-    //     console.log(this.stockData);
-    //   });
   }
 
 }

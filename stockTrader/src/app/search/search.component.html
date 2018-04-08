@@ -1,6 +1,6 @@
 <div>
   <h3>Search</h3>
   <input [(ngModel)]="tickerSymbol" id="searchBox" placeholder="OSTK"><br/>
-  <div *ngIf="message" class="alert alert-success">{{message}}</div>
+  <div *ngIf="message" class="alert alert-success">{{message | json}}</div>
   <input type="submit" id="submitSearch" class="btn btn-info" value="Submit" (click)="update()"/>
 </div>
