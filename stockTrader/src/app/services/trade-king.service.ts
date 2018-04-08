@@ -49,6 +49,7 @@ export class TradeKingService {
       secrets.auth.access_token,
       secrets.auth.access_secret,
       (error, data, response) => {
+        console.log("get stock data callback");
         this.currentData = this.convertJSONData(JSON.parse(data));
         this.sendMessage(this.currentData);
       }
