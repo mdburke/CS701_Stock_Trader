@@ -14,19 +14,11 @@ export class SearchComponent implements OnInit {
   private stockData: any;
 
   constructor(private tradeKingService: TradeKingService) {
-    this.tickerSymbol = "";
+    this.tickerSymbol = "aapl";
   }
 
   ngOnInit() {
-    this.updateStockData();
-  }
-
-  updateStockData(): void {
-    this.tradeKingService.getStockData()
-      .subscribe(data => {
-        this.stockData = data;
-        console.log(this.stockData);
-      });
+    this.update();
   }
 
   update() {
