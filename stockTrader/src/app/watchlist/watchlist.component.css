@@ -6,3 +6,12 @@
   margin: auto;
   width: 100%;
 }
+
+.mobile_hamburger {
+  width: 20px;
+  height: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}

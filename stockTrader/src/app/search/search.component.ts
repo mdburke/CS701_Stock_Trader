@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private tradeKingService: TradeKingService, private messageService: TradeKingMessageService) {
     this.subscription = this.messageService.getMessage().subscribe(message => { this.stockData = message });
-    this.tickerSymbol = "aapl";
+    this.tickerSymbol = this.tradeKingService.getTickerSymbol();
   }
 
   ngOnInit() {

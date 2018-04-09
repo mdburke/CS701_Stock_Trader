@@ -12,6 +12,7 @@ import { TradeKingMessageService } from "./services/tradeKingMessage.service";
 import { AlphaVantageService } from "./services/alpha-vantage.service";
 import { HttpClientJsonpModule, HttpClientModule } from "@angular/common/http";
 import { AlphaVantageMessageService } from "./services/alpha-vantage-message.service";
+import { StorageService } from "./services/storage.service";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AlphaVantageMessageService } from "./services/alpha-vantage-message.ser
     TradeKingService,
     TradeKingMessageService,
     AlphaVantageService,
-    AlphaVantageMessageService
+    AlphaVantageMessageService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })

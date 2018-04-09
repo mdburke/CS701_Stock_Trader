@@ -5,16 +5,16 @@
     <tr>
       <th>Symbol</th>
       <th>Last</th>
-      <th>Close</th>
-      <th></th>
+      <th>Open</th>
+      <th>Move</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let stock of stocks; let i = index;" (click)="update(stock.symbol)">
-      <td>{{ stock.symbol | uppercase }}</td>
+    <tr *ngFor="let stock of stocks; let i = index;" draggable="true">
+      <td (click)="update(stock.symbol)" class="pointer">{{ stock.symbol | uppercase }}</td>
       <td>N/A</td>
       <td>N/A</td>
-      <td></td>
+      <td><img src="../../assets/Hamburger_icon.png" class="mobile_hamburger pointer"></td>
     </tr>
     </tbody>
   </table>

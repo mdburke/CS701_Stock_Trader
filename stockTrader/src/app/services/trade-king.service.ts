@@ -6,6 +6,7 @@ import {secrets} from "../../environments/secrets";
 import {environment} from "../../environments/environment";
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
+import { StorageService } from "./storage.service";
 
 @Injectable()
 export class TradeKingService {
@@ -13,8 +14,9 @@ export class TradeKingService {
   private tickerSymbol: string;
   private currentData: TickerData;
 
-  constructor(private messageService: TradeKingMessageService) {
-    this.tickerSymbol = 'aapl';
+  constructor(private messageService: TradeKingMessageService,
+              private storageService: StorageService) {
+    this.tickerSymbol = storageService.load('ticker') || 'aapl';
     this.api_consumer = new oauth.OAuth(
       environment.urls.trade_king_request,
       environment.urls.trade_king_access,
@@ -39,6 +41,7 @@ export class TradeKingService {
   updateTickerSymbol(tickerSymbol: string): void {
     this.tickerSymbol = tickerSymbol;
     this.getStockData();
+    this.storageService.store("ticker", this.tickerSymbol);
   }
 
   getTickerSymbol(): string {
