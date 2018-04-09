@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TradeKingService } from "../services/trade-king.service";
+import { StorageService } from "../services/storage.service";
 
 @Component({
   selector: 'app-watchlist',
@@ -8,11 +9,13 @@ import { TradeKingService } from "../services/trade-king.service";
 })
 export class WatchlistComponent implements OnInit {
   stocks: any[];
+  addTicker: string;
 
-  constructor(private tradeKingService: TradeKingService) {
-    // localStorage.setItem("StockTraderWatchlist", JSON.stringify(this.books));
-    if(localStorage.getItem("StockTraderWatchlist")) {
-
+  constructor(private tradeKingService: TradeKingService,
+              private storageService: StorageService) {
+    let list = storageService.load('watchlist');
+    if (list) {
+      this.stocks = list;
     } else {
       this.stocks = [
         {symbol: "aapl"}, {symbol: "nvda"}, {symbol:"ibm"}
@@ -25,6 +28,13 @@ export class WatchlistComponent implements OnInit {
 
   update(symbol: string) {
     this.tradeKingService.updateTickerSymbol(symbol);
+  }
+
+  addNew() {
+    if (this.addTicker.length > 0) {
+      this.stocks.push({symbol: this.addTicker});
+      this.storageService.store('watchlist', this.stocks);
+    }
   }
 
 }
