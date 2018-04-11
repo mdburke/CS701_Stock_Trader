@@ -23,9 +23,11 @@ export class ChartComponent implements OnInit {
               private alphaVantageMessageService: AlphaVantageMessageService) {
     this.symbol = tradeKingService.getTickerSymbol();
     this.tradeKingSubscription = this.tradeKingMessageService.getMessage().subscribe(message => {
-      this.symbol = message.symbol;
-      Plotly.purge(document.getElementById("plotly"));
-      this.alphaVantageService.updateTicker(this.symbol);
+      if (message.symbol !== this.symbol) {
+        this.symbol = message.symbol;
+        Plotly.purge(document.getElementById("plotly"));
+        this.alphaVantageService.updateTicker(this.symbol);
+      }
     });
     this.alphaVantageSubscription = this.alphaVantageMessageService.getMessage().subscribe(message => {
       this.data = message;
