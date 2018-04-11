@@ -7,12 +7,14 @@ import {environment} from "../../environments/environment";
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
 import { StorageService } from "./storage.service";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 @Injectable()
 export class TradeKingService {
   private api_consumer: any;
   private tickerSymbol: string;
   private currentData: TickerData;
+  private intervalAlive: boolean;
 
   constructor(private messageService: TradeKingMessageService,
               private storageService: StorageService) {
@@ -26,6 +28,11 @@ export class TradeKingService {
       "http://mywebsite.com/tradeking/callback",
       "HMAC-SHA1"
     );
+    this.intervalAlive = true;
+    TimerObservable.create(0, 5000)
+      .subscribe(() => {
+        this.getStockData();
+      });
   }
 
   sendMessage(message: any): void {
@@ -36,7 +43,9 @@ export class TradeKingService {
     this.messageService.clearMessage();
   }
 
-  ngOnInit() {}
+  getTickerSymbol(): string {
+    return this.tickerSymbol;
+  }
 
   updateTickerSymbol(tickerSymbol: string): void {
     this.tickerSymbol = tickerSymbol;
@@ -44,20 +53,41 @@ export class TradeKingService {
     this.storageService.store("ticker", this.tickerSymbol);
   }
 
-  getTickerSymbol(): string {
-    return this.tickerSymbol;
+  async getStockData() {
+    let marketStatus = JSON.parse(await this.getMarketStatus());
+    await this.getQuote();
+    this.currentData.callTime = marketStatus.response.date;
+    this.currentData.marketStatus = marketStatus['response']['status']['current'];
+    this.sendMessage(this.currentData);
   }
 
-  getStockData(): void {
-    this.api_consumer.get(
-      secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbol,
-      secrets.auth.access_token,
-      secrets.auth.access_secret,
-      (error, data, response) => {
-        this.currentData = this.convertJSONData(JSON.parse(data));
-        this.sendMessage(this.currentData);
-      }
-    );
+  getMarketStatus() {
+    return new Promise((resolve, reject) => {
+      this.api_consumer.get(
+        secrets.auth.api_url + '/market/clock.json',
+        secrets.auth.access_token,
+        secrets.auth.access_secret,
+        (error, data, response) => {
+          if (error !== null) return reject(error);
+          resolve(data);
+        }
+      )
+    });
+  }
+
+  getQuote() {
+    return new Promise((resolve, reject) => {
+      this.api_consumer.get(
+        secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbol,
+        secrets.auth.access_token,
+        secrets.auth.access_secret,
+        (error, data, response) => {
+          if (error !== null) return reject(error);
+          this.currentData = this.convertJSONData(JSON.parse(data));
+          resolve(this.currentData);
+        }
+      );
+    });
   }
 
   private convertJSONData(json: any): TickerData {

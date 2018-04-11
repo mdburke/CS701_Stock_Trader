@@ -1,19 +1,22 @@
 <div id="stock_details">
-  <h3>Stock Details</h3>
+  <div id="header">
+    <h3>Stock Details</h3>
+    <!--<input id="start" type="button" value="Start Live Updates" (click)="startLiveUpdates">-->
+  </div>
   <table class="table-bordered" *ngIf="stockData; else elseBlock">
     <tr>
       <th>Symbol</th>
       <th>Last</th>
       <th>Day Change</th>
       <th>Today's Open</th>
-      <th>Today's Volume</th>
+      <th>Last Update</th>
     </tr>
     <tr>
       <td>{{stockData.symbol}}</td>
       <td>{{stockData.last}}</td>
       <td>{{stockData.dayChange}}</td>
       <td>{{stockData.open}}</td>
-      <td>{{stockData.volume}}</td>
+      <td>{{stockData.callTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
     </tr>
     <tr>
       <th>Company Name</th>

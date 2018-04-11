@@ -6,3 +6,19 @@
   margin: auto;
   width: 100%;
 }
+
+h3 {
+  display: inline-block;
+}
+
+#start {
+  display: inline;
+  float: right;
+  vertical-align: middle;
+  margin-top: 6px;
+  margin-bottom: auto;
+}
+
+#header {
+  vertical-align: middle;
+}
