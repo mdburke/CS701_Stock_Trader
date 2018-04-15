@@ -9,12 +9,15 @@ export class TickerData {
   volume: number;
   adp_200: number;
   eps: number;
+  unixTime: number;
+  change_at: number;
   callTime: number;
   marketStatus: string;
+  message: string;
 
   constructor(symbol: string, companyName: string, exchange: string, last: number, dayChange: number,
-              open: number, vwap: number, volume: number, adp_200: number, eps: number, callTime?: number,
-              marketStatus?: string) {
+              open: number, vwap: number, volume: number, adp_200: number, eps: number, unixTime?: number,
+              change_at?: number, callTime?: number, marketStatus?: string, message?: string) {
     this.symbol = symbol;
     this.companyName = companyName;
     this.exchange = exchange;
@@ -25,8 +28,11 @@ export class TickerData {
     this.volume = volume;
     this.adp_200 = adp_200;
     this.eps = eps;
+    this.unixTime = unixTime;
+    this.change_at = change_at;
     this.callTime = callTime;
     this.marketStatus = marketStatus;
+    this.message = message;
   }
 }
 

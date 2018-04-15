@@ -1,7 +1,11 @@
 <div id="stock_details">
   <div id="header">
     <h3>Stock Details</h3>
-    <!--<input id="start" type="button" value="Start Live Updates" (click)="startLiveUpdates">-->
+    <div id="marketStatus" *ngIf="stockData">
+      Market Status: <span id="status">{{stockData.marketStatus | timeToMarketOpen}}</span>
+    </div>
+    <span id="message" *ngIf="stockData">{{stockData.message}}</span>
+
   </div>
   <table class="table-bordered" *ngIf="stockData; else elseBlock">
     <tr>

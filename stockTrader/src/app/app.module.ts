@@ -13,6 +13,7 @@ import { AlphaVantageService } from "./services/alpha-vantage.service";
 import { HttpClientJsonpModule, HttpClientModule } from "@angular/common/http";
 import { AlphaVantageMessageService } from "./services/alpha-vantage-message.service";
 import { StorageService } from "./services/storage.service";
+import { TimeToMarketOpenPipe } from './pipes/time-to-market-open.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { StorageService } from "./services/storage.service";
     ChartComponent,
     WatchlistComponent,
     StockDetailsComponent,
-    SearchComponent
+    SearchComponent,
+    TimeToMarketOpenPipe
   ],
   imports: [
     BrowserModule,

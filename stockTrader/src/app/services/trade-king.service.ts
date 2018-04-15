@@ -54,14 +54,17 @@ export class TradeKingService {
   }
 
   async getStockData() {
-    let marketStatus = JSON.parse(await this.getMarketStatus());
+    let marketStatus: string = JSON.parse(await this.getMarketStatus());
     await this.getQuote();
-    this.currentData.callTime = marketStatus.response.date;
+    this.currentData.callTime = marketStatus['response']['date'];
     this.currentData.marketStatus = marketStatus['response']['status']['current'];
+    this.currentData.unixTime = marketStatus['response']['unixtime'];
+    this.currentData.change_at = marketStatus['response']['status']['change_at'];
+    this.currentData.message = marketStatus['response']['message'];
     this.sendMessage(this.currentData);
   }
 
-  getMarketStatus() {
+  getMarketStatus(): Promise<string> {
     return new Promise((resolve, reject) => {
       this.api_consumer.get(
         secrets.auth.api_url + '/market/clock.json',
@@ -102,7 +105,8 @@ export class TradeKingService {
       quote.vwap,
       quote.adv_21,
       quote.adp_200,
-      quote.eps
+      quote.eps,
+      quote.unixTime
     );
   }
 }

@@ -8,12 +8,21 @@
 }
 
 h3 {
-  display: inline-block;
 }
 
-#start {
-  display: inline;
+#marketStatus {
   float: right;
+  vertical-align: middle;
+  margin-top: 6px;
+  margin-bottom: auto;
+}
+
+#status {
+  font-weight: bold;
+}
+
+#message {
+  float: left;
   vertical-align: middle;
   margin-top: 6px;
   margin-bottom: auto;
