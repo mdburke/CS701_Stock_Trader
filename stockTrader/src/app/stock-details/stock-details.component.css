@@ -1,13 +1,17 @@
 #stock_details {
-  padding: 0;
+  padding: 5px;
+  margin: auto;
+  width: 95%;
 }
 
 #stock_details table {
   margin: auto;
+  table-layout: fixed;
   width: 100%;
 }
 
-h3 {
+#stock_details td {
+  overflow: hidden;
 }
 
 #marketStatus {
@@ -15,6 +19,7 @@ h3 {
   vertical-align: middle;
   margin-top: 6px;
   margin-bottom: auto;
+  margin-left: 15px;
 }
 
 #status {

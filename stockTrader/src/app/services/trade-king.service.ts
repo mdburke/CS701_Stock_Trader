@@ -106,6 +106,7 @@ export class TradeKingService {
       quote.adv_21,
       quote.adp_200,
       quote.eps,
+      quote.pe,
       quote.unixTime
     );
   }

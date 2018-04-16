@@ -14,6 +14,7 @@ import { HttpClientJsonpModule, HttpClientModule } from "@angular/common/http";
 import { AlphaVantageMessageService } from "./services/alpha-vantage-message.service";
 import { StorageService } from "./services/storage.service";
 import { TimeToMarketOpenPipe } from './pipes/time-to-market-open.pipe';
+import { DndModule } from "ng2-dnd";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TimeToMarketOpenPipe } from './pipes/time-to-market-open.pipe';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    DndModule.forRoot()
   ],
   providers: [
     TradeKingService,

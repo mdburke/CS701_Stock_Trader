@@ -9,12 +9,12 @@
       <th>Move</th>
     </tr>
     </thead>
-    <tbody>
-    <tr *ngFor="let stock of stocks; let i = index;" draggable="true">
+    <tbody dnd-sortable-container [sortableData]="stocks">
+    <tr *ngFor="let stock of stocks; let i = index;" dnd-sortable [sortableIndex]="i">
       <td (click)="update(stock.symbol)" class="pointer">{{ stock.symbol | uppercase }}</td>
       <td>N/A</td>
       <td>N/A</td>
-      <td><img src="../../assets/Hamburger_icon.png" class="mobile_hamburger pointer"></td>
+      <td dnd-sortable-handle><img src="../../assets/Hamburger_icon.png" class="mobile_hamburger pointer"></td>
     </tr>
     </tbody>
   </table>

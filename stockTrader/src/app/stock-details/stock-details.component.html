@@ -7,7 +7,7 @@
     <span id="message" *ngIf="stockData">{{stockData.message}}</span>
 
   </div>
-  <table class="table-bordered" *ngIf="stockData; else elseBlock">
+  <table class="table-bordered table-striped" *ngIf="stockData; else elseBlock">
     <tr>
       <th>Symbol</th>
       <th>Last</th>
@@ -27,14 +27,14 @@
       <th>Exchange</th>
       <th>VWAP</th>
       <th>200 Day MA</th>
-      <th>Earnings per share</th>
+      <th>P/E Ratio</th>
     </tr>
     <tr>
       <td>{{stockData.companyName}}</td>
       <td>{{stockData.exchange}}</td>
       <td>{{stockData.vwap}}</td>
       <td>{{stockData.adp_200}}</td>
-      <td>{{stockData.eps}}</td>
+      <td>{{stockData.pe}}</td>
     </tr>
   </table>
   <ng-template #elseBlock>

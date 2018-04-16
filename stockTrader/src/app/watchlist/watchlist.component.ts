@@ -34,6 +34,7 @@ export class WatchlistComponent implements OnInit {
     if (this.addTicker.length > 0) {
       this.stocks.push({symbol: this.addTicker});
       this.storageService.store('watchlist', this.stocks);
+      this.addTicker = "";
     }
   }
 
