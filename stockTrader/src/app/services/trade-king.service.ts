@@ -14,11 +14,13 @@ export class TradeKingService {
   private api_consumer: any;
   private tickerSymbol: string;
   private currentData: TickerData;
-  private intervalAlive: boolean;
+  private tickerSymbols: string[];
+  private stockData: TickerData[];
 
   constructor(private messageService: TradeKingMessageService,
               private storageService: StorageService) {
     this.tickerSymbol = storageService.load('ticker') || 'aapl';
+    this.tickerSymbols = ['aapl', 'nvda', 'ostk'];
     this.api_consumer = new oauth.OAuth(
       environment.urls.trade_king_request,
       environment.urls.trade_king_access,
@@ -28,7 +30,6 @@ export class TradeKingService {
       "http://mywebsite.com/tradeking/callback",
       "HMAC-SHA1"
     );
-    this.intervalAlive = true;
     TimerObservable.create(0, 5000)
       .subscribe(() => {
         this.getStockData();
@@ -75,6 +76,21 @@ export class TradeKingService {
           resolve(data);
         }
       )
+    });
+  }
+
+  getQuotes() {
+    return new Promise((resolve, reject) => {
+      this.api_consumer.get(
+        secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbols.join(','),
+        secrets.auth.access_token,
+        secrets.auth.access_secret,
+        (error, data, response) => {
+          if (error !== null) return reject(error);
+          this.currentData = this.convertJSONData(JSON.parse(data));
+          resolve(this.currentData);
+        }
+      );
     });
   }
 
