@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TradeKingService } from "../services/trade-king.service";
 import { StorageService } from "../services/storage.service";
+import { environment } from "../../environments/environment";
+import * as cloneDeep from 'lodash/cloneDeep';
 
 @Component({
   selector: 'app-watchlist',
@@ -10,16 +12,15 @@ import { StorageService } from "../services/storage.service";
 export class WatchlistComponent implements OnInit {
   stocks: any[];
   addTicker: string;
-  default: any[];
 
   constructor(private tradeKingService: TradeKingService,
               private storageService: StorageService) {
-    this.default = [{symbol: "aapl"}, {symbol: "nvda"}, {symbol:"ibm"}];
+    this.addTicker = '';
     let list = storageService.load('watchlist');
     if (list) {
       this.stocks = list;
     } else {
-      this.stocks = this.default;
+      this.stocks = cloneDeep(environment.default_watchlist);
     }
   }
 
@@ -39,7 +40,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   reset() {
-    this.stocks = this.default;
+    this.stocks = cloneDeep(environment.default_watchlist);
     this.storageService.store('watchlist', this.stocks);
   }
 

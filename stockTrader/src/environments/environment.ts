@@ -12,5 +12,6 @@ export const environment = {
     trade_king_access: "https://developers.tradeking.com/oauth/access_token",
     alpha_vantage_daily: "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=",
     alpha_vantage_api_key_suffix: "&apikey=" + secrets.alpha_vantage_key
-  }
+  },
+  default_watchlist: [{symbol: "aapl"}, {symbol: "nvda"}, {symbol:"ibm"}]
 };
