@@ -10,16 +10,16 @@ import { StorageService } from "../services/storage.service";
 export class WatchlistComponent implements OnInit {
   stocks: any[];
   addTicker: string;
+  default: any[];
 
   constructor(private tradeKingService: TradeKingService,
               private storageService: StorageService) {
+    this.default = [{symbol: "aapl"}, {symbol: "nvda"}, {symbol:"ibm"}];
     let list = storageService.load('watchlist');
     if (list) {
       this.stocks = list;
     } else {
-      this.stocks = [
-        {symbol: "aapl"}, {symbol: "nvda"}, {symbol:"ibm"}
-      ]
+      this.stocks = this.default;
     }
   }
 
@@ -36,6 +36,11 @@ export class WatchlistComponent implements OnInit {
       this.storageService.store('watchlist', this.stocks);
       this.addTicker = "";
     }
+  }
+
+  reset() {
+    this.stocks = this.default;
+    this.storageService.store('watchlist', this.stocks);
   }
 
 }

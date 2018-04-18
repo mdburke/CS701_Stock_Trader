@@ -15,3 +15,21 @@
 .pointer {
   cursor: pointer;
 }
+
+h3 {
+  display: inline-block;
+}
+
+#reset {
+  display: inline-block;
+  padding: 3px;
+  float: right;
+}
+
+#reset button {
+  padding: 3px;
+  font-size: small;
+  line-height: 100%;
+  background-color: #17a2b8;
+  border: 0px;
+}
