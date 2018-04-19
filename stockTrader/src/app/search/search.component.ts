@@ -16,9 +16,8 @@ export class SearchComponent implements OnInit {
 
   constructor(private tradeKingService: TradeKingService, private messageService: TradeKingMessageService) {
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.stockData = message;
-      this.tickerSymbol = this.stockData.symbol;
-      // this.tickerSymbol = this.stockData.
+      this.stockData = message.stockData;
+      this.tickerSymbol = message.mainTicker;
     });
     this.tickerSymbol = this.tradeKingService.getTickerSymbol();
   }

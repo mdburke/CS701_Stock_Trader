@@ -2,9 +2,9 @@
   <div id="header">
     <h3>Stock Details</h3>
     <div id="marketStatus" *ngIf="stockData">
-      Market Status: <span id="status">{{stockData.marketStatus | timeToMarketOpen}}</span>
+      Market Status: <span id="status">{{clockData.marketStatus | timeToMarketOpen}}</span>
     </div>
-    <span id="message" *ngIf="stockData">{{stockData.message}}</span>
+    <span id="message" *ngIf="stockData">{{clockData.message}}</span>
 
   </div>
   <table class="table-bordered table-striped" *ngIf="stockData; else elseBlock">
@@ -20,7 +20,7 @@
       <td>{{stockData.last}}</td>
       <td>{{stockData.dayChange}}</td>
       <td>{{stockData.open}}</td>
-      <td>{{stockData.callTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td>{{clockData.callTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
     </tr>
     <tr>
       <th>Company Name</th>

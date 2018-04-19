@@ -3,6 +3,7 @@ import {Subscription} from "rxjs/Subscription";
 import {TickerData} from "../models/TickerData";
 import { TradeKingMessageService } from "../services/tradeKingMessage.service";
 import { TradeKingService } from "../services/trade-king.service";
+import { ClockData } from "../models/ClockData";
 
 @Component({
   selector: 'app-stock-details',
@@ -11,12 +12,16 @@ import { TradeKingService } from "../services/trade-king.service";
 })
 export class StockDetailsComponent implements OnInit {
   private stockData: TickerData;
+  private clockData: ClockData;
   private subscription: Subscription;
 
   constructor(private messageService: TradeKingMessageService,
               private tradeKingService: TradeKingService) {
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.stockData = message
+      console.log(message);
+      this.stockData = message.find(message.mainTicker);
+      console.log(this.stockData);
+      this.clockData = message.clockData;
     });
   }
 

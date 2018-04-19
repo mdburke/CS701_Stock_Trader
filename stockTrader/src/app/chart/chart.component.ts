@@ -16,15 +16,18 @@ export class ChartComponent implements OnInit {
   private symbol: string;
   private tradeKingSubscription: Subscription;
   private alphaVantageSubscription: Subscription;
+  private runOnce: boolean;
 
   constructor(private alphaVantageService: AlphaVantageService,
               private tradeKingService: TradeKingService,
               private tradeKingMessageService: TradeKingMessageService,
               private alphaVantageMessageService: AlphaVantageMessageService) {
     this.symbol = tradeKingService.getTickerSymbol();
+    this.runOnce = false;
     this.tradeKingSubscription = this.tradeKingMessageService.getMessage().subscribe(message => {
-      if (message.symbol !== this.symbol) {
-        this.symbol = message.symbol;
+      if (message.mainTicker !== this.symbol || this.runOnce === false) {
+        this.runOnce = true;
+        this.symbol = message.mainTicker;
         Plotly.purge(document.getElementById("plotly"));
         this.alphaVantageService.updateTicker(this.symbol);
       }
@@ -58,8 +61,6 @@ export class ChartComponent implements OnInit {
       }];
 
       let layout = {
-        // plot_bgcolor: '#ecf0f1',
-        // paper_bgcolor: '#ecf0f1',
         dragmode: 'zoom',
         margin: {
           r: 10,

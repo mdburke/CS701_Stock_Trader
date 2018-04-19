@@ -8,19 +8,23 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
 import { StorageService } from "./storage.service";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { MessageData } from "../models/MessageData";
 
 @Injectable()
 export class TradeKingService {
   private api_consumer: any;
-  private tickerSymbol: string;
+  private mainTicker: string;
   private currentData: TickerData;
   private tickerSymbols: string[];
   private stockData: TickerData[];
+  private messageData: MessageData;
 
   constructor(private messageService: TradeKingMessageService,
               private storageService: StorageService) {
-    this.tickerSymbol = storageService.load('ticker') || 'aapl';
-    this.tickerSymbols = ['aapl', 'nvda', 'ostk'];
+    // this.tickerSymbol = storageService.load('ticker') || 'aapl';
+    this.mainTicker = storageService.load('mainTicker') || 'aapl';
+    this.tickerSymbols = storageService.load('tickers') || ['aapl', 'nvda', 'ibm'];
+    this.messageData = new MessageData();
     this.api_consumer = new oauth.OAuth(
       environment.urls.trade_king_request,
       environment.urls.trade_king_access,
@@ -45,24 +49,21 @@ export class TradeKingService {
   }
 
   getTickerSymbol(): string {
-    return this.tickerSymbol;
+    return this.mainTicker;
   }
 
   updateTickerSymbol(tickerSymbol: string): void {
-    this.tickerSymbol = tickerSymbol;
+    this.mainTicker = tickerSymbol;
+    this.messageData.mainTicker = this.mainTicker;
     this.getStockData();
-    this.storageService.store("ticker", this.tickerSymbol);
+    this.storageService.store("mainTicker", this.mainTicker);
   }
 
   async getStockData() {
-    let marketStatus: string = JSON.parse(await this.getMarketStatus());
-    await this.getQuote();
-    this.currentData.callTime = marketStatus['response']['date'];
-    this.currentData.marketStatus = marketStatus['response']['status']['current'];
-    this.currentData.unixTime = marketStatus['response']['unixtime'];
-    this.currentData.change_at = marketStatus['response']['status']['change_at'];
-    this.currentData.message = marketStatus['response']['message'];
-    this.sendMessage(this.currentData);
+    // let marketStatus: string = JSON.parse(await this.getMarketStatus());
+    await this.getMarketStatus();
+    await this.getQuotes();
+    this.sendMessage(this.messageData);
   }
 
   getMarketStatus(): Promise<string> {
@@ -73,6 +74,13 @@ export class TradeKingService {
         secrets.auth.access_secret,
         (error, data, response) => {
           if (error !== null) return reject(error);
+          data = JSON.parse(data);
+          this.messageData.clockData.callTime = data['response']['date'];
+          this.messageData.clockData.marketStatus = data['response']['status']['current'];
+          this.messageData.clockData.unixTime = data['response']['unixtime'];
+          this.messageData.clockData.change_at = data['response']['status']['change_at'];
+          this.messageData.clockData.message = data['response']['message'];
+
           resolve(data);
         }
       )
@@ -82,48 +90,65 @@ export class TradeKingService {
   getQuotes() {
     return new Promise((resolve, reject) => {
       this.api_consumer.get(
-        secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbols.join(','),
+        secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbols.join(',') + ',' + this.mainTicker,
         secrets.auth.access_token,
         secrets.auth.access_secret,
         (error, data, response) => {
           if (error !== null) return reject(error);
-          this.currentData = this.convertJSONData(JSON.parse(data));
-          resolve(this.currentData);
+          let quotes = JSON.parse(data).response.quotes.quote;
+
+          for (let quote of quotes) {
+            this.messageData.add(new TickerData(
+              quote.symbol,
+                quote.name,
+                quote.exch_desc,
+                quote.last,
+                quote.chg,
+                quote.opn,
+                quote.vwap,
+                quote.adv_21,
+                quote.adp_200,
+                quote.eps,
+                quote.pe
+            ));
+          }
+
+          resolve(data);
         }
       );
     });
   }
-
-  getQuote() {
-    return new Promise((resolve, reject) => {
-      this.api_consumer.get(
-        secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbol,
-        secrets.auth.access_token,
-        secrets.auth.access_secret,
-        (error, data, response) => {
-          if (error !== null) return reject(error);
-          this.currentData = this.convertJSONData(JSON.parse(data));
-          resolve(this.currentData);
-        }
-      );
-    });
-  }
-
-  private convertJSONData(json: any): TickerData {
-    let quote = json.response.quotes.quote;
-    return new TickerData(
-      quote.symbol,
-      quote.name,
-      quote.exch_desc,
-      quote.last,
-      quote.chg,
-      quote.opn,
-      quote.vwap,
-      quote.adv_21,
-      quote.adp_200,
-      quote.eps,
-      quote.pe,
-      quote.unixTime
-    );
-  }
+  //
+  // getQuote() {
+  //   return new Promise((resolve, reject) => {
+  //     this.api_consumer.get(
+  //       secrets.auth.api_url + '/market/ext/quotes.json?symbols=' + this.tickerSymbol,
+  //       secrets.auth.access_token,
+  //       secrets.auth.access_secret,
+  //       (error, data, response) => {
+  //         if (error !== null) return reject(error);
+  //         this.currentData = this.convertJSONData(JSON.parse(data));
+  //         resolve(this.currentData);
+  //       }
+  //     );
+  //   });
+  // }
+  //
+  // private convertJSONData(json: any): TickerData {
+  //   let quote = json.response.quotes.quote;
+  //   return new TickerData(
+  //     quote.symbol,
+  //     quote.name,
+  //     quote.exch_desc,
+  //     quote.last,
+  //     quote.chg,
+  //     quote.opn,
+  //     quote.vwap,
+  //     quote.adv_21,
+  //     quote.adp_200,
+  //     quote.eps,
+  //     quote.pe,
+  //     quote.unixTime
+  //   );
+  // }
 }
