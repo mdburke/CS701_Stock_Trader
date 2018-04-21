@@ -57,6 +57,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     this.addTicker = "";
   }
 
+  updateOrder(old_index: any, new_index: number) {
+    this.storageService.store('watchlist', this.stocks);
+  }
+
   reset() {
     this.stocks = cloneDeep(environment.default_watchlist);
     this.storageService.store('watchlist', this.stocks);
