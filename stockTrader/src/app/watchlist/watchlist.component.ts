@@ -3,6 +3,9 @@ import { TradeKingService } from "../services/trade-king.service";
 import { StorageService } from "../services/storage.service";
 import { environment } from "../../environments/environment";
 import * as cloneDeep from 'lodash/cloneDeep';
+import { TradeKingMessageService } from "../services/tradeKingMessage.service";
+import { Subscription } from "rxjs/Subscription";
+import { TickerData } from "../models/TickerData";
 
 @Component({
   selector: 'app-watchlist',
@@ -12,9 +15,12 @@ import * as cloneDeep from 'lodash/cloneDeep';
 export class WatchlistComponent implements OnInit {
   stocks: any[];
   addTicker: string;
+  private stockData: TickerData[];
+  private subscription: Subscription;
 
   constructor(private tradeKingService: TradeKingService,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private messageService: TradeKingMessageService) {
     this.addTicker = '';
     let list = storageService.load('watchlist');
     if (list) {
@@ -22,6 +28,14 @@ export class WatchlistComponent implements OnInit {
     } else {
       this.stocks = cloneDeep(environment.default_watchlist);
     }
+    this.tradeKingService.addSymbols(this.stocks);
+    this.subscription = this.messageService.getMessage().subscribe(message => {
+      this.stockData = message.tickerData;
+    });
+  }
+
+  sortStockData(stockData: TickerData[]): TickerData[] {
+    return stockData;
   }
 
   ngOnInit() {

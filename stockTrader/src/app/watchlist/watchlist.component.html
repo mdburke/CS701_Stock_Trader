@@ -3,7 +3,7 @@
   <div id="reset">
     <button type="button" class="btn btn-primary" (click)="reset()">Reset<br>Watchlist</button>
   </div>
-  <table class="table-bordered">
+  <table class="table-bordered" *ngIf="stockData; else elseBlock">
     <thead>
     <tr>
       <th>Symbol</th>
@@ -15,8 +15,8 @@
     <tbody dnd-sortable-container [sortableData]="stocks">
     <tr *ngFor="let stock of stocks; let i = index;" dnd-sortable [sortableIndex]="i">
       <td (click)="update(stock.symbol)" class="pointer">{{ stock.symbol | uppercase }}</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td>{{ stockData[i].last }}</td>
+      <td>{{ stockData[i].open }}</td>
       <td dnd-sortable-handle><img src="../../assets/Hamburger_icon.png" class="mobile_hamburger pointer"></td>
     </tr>
     </tbody>
@@ -25,4 +25,7 @@
   Add:
   <input [(ngModel)]="addTicker" type="text" id="symbol_input">
   <input type="submit" (click)="addNew()">
+  <ng-template #elseBlock>
+    Loading...
+  </ng-template>
 </div>

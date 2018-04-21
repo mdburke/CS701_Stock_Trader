@@ -14,7 +14,7 @@ export class MessageData {
 
   add(tickerData: TickerData) {
     let index = this.tickerData.findIndex(ticker => {
-      return ticker.symbol.toLowerCase === tickerData.symbol.toLowerCase;
+      return ticker.symbol.toLowerCase() === tickerData.symbol.toLowerCase();
     });
 
     if (index === -1) {
@@ -26,7 +26,7 @@ export class MessageData {
 
   find(symbol: string): TickerData {
     return this.tickerData.find(ticker => {
-      return ticker.symbol.toLowerCase === symbol.toLowerCase;
+      return ticker.symbol.toLowerCase() === symbol.toLowerCase();
     })
   }
 }

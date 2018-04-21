@@ -59,6 +59,14 @@ export class TradeKingService {
     this.storageService.store("mainTicker", this.mainTicker);
   }
 
+  addSymbols(symbols: string[]) {
+    symbols.forEach(symbol => {
+      if (this.tickerSymbols.indexOf(symbol) !== -1) {
+        this.tickerSymbols.push(symbol);
+      }
+    });
+  }
+
   async getStockData() {
     // let marketStatus: string = JSON.parse(await this.getMarketStatus());
     await this.getMarketStatus();
