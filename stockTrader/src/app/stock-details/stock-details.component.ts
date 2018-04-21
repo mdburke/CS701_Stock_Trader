@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {TickerData} from "../models/TickerData";
 import { TradeKingMessageService } from "../services/tradeKingMessage.service";
@@ -11,17 +11,15 @@ import { MessageData } from "../models/MessageData";
   templateUrl: './stock-details.component.html',
   styleUrls: ['./stock-details.component.css']
 })
-export class StockDetailsComponent implements OnInit {
+export class StockDetailsComponent implements OnInit, OnDestroy {
   private stockData: TickerData;
   private clockData: ClockData;
   private subscription: Subscription;
 
-  constructor(private messageService: TradeKingMessageService,
-              private tradeKingService: TradeKingService) {
+  constructor(private messageService: TradeKingMessageService) {
+    // Subscribe to updates from the Trade King API service
     this.subscription = this.messageService.getMessage().subscribe((message: MessageData) => {
-      console.log(message.mainTicker);
       this.stockData = message.find(message.mainTicker);
-      console.log(this.stockData);
       this.clockData = message.clockData;
     });
   }

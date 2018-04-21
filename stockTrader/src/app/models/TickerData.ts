@@ -1,3 +1,4 @@
+// Class to maintain the clock data from the Trade King API
 export class TickerData {
   symbol: string;
   companyName: string;

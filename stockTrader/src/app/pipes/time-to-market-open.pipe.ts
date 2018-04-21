@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { isNumeric } from "rxjs/util/isNumeric";
 
+// Simple pipe that just translates the message we get from Trade King API on the market status to
+// something more informative.
 @Pipe({
   name: 'timeToMarketOpen'
 })

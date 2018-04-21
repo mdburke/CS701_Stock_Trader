@@ -22,16 +22,26 @@ export class ChartComponent implements OnInit {
               private tradeKingService: TradeKingService,
               private tradeKingMessageService: TradeKingMessageService,
               private alphaVantageMessageService: AlphaVantageMessageService) {
+
+    // Get initial symbol to use
     this.symbol = tradeKingService.getTickerSymbol();
+
+    // runOnce is a flag to ensure everything is called at least once when you first load the page.
     this.runOnce = false;
+
+    // The subscription for the Trade King Service. The callback updates the data and purges the graph to show the new info.
     this.tradeKingSubscription = this.tradeKingMessageService.getMessage().subscribe(message => {
       if (message.mainTicker !== this.symbol || this.runOnce === false) {
         this.runOnce = true;
         this.symbol = message.mainTicker;
         Plotly.purge(document.getElementById("plotly"));
+
+        // Makes a call to Alpha Vantage (the API that gets the full historical data)
         this.alphaVantageService.updateTicker(this.symbol);
       }
     });
+
+    // Subscribes to the response of Alpha Vantage api to get the latest data when the symbol is updated.
     this.alphaVantageSubscription = this.alphaVantageMessageService.getMessage().subscribe(message => {
       this.data = message;
       this.updateChart();
@@ -42,10 +52,13 @@ export class ChartComponent implements OnInit {
     Plotly.purge(document.getElementById("plotly"));
   }
 
+  // Updates the chart with the latest data
   updateChart() {
     let div = document.getElementById('plotly');
 
+    // Don't load the data if it's not there
     if (this.data) {
+      // Translate the data we got from Alpha Vantage into the format necessary for Plotly
       let chartData = [{
         x: this.data.dates,
         close: this.data.closes,
@@ -83,11 +96,10 @@ export class ChartComponent implements OnInit {
         }
       };
 
+      // Actually plots the new data with the given data and layout
       Plotly.newPlot(div, chartData, layout);
     } else {
       div.innerText = "Loading...";
     }
-
   }
-
 }

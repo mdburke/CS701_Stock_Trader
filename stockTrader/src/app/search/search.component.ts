@@ -10,15 +10,16 @@ import { TickerData } from "../models/TickerData";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  private stockData: TickerData;
   private tickerSymbol: string;
   private subscription: Subscription;
 
   constructor(private tradeKingService: TradeKingService, private messageService: TradeKingMessageService) {
+    // Subscribe to the Trade King Service messages to update the data.
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.stockData = message.stockData;
       this.tickerSymbol = message.mainTicker;
     });
+
+    // Set the initial ticker symbol
     this.tickerSymbol = this.tradeKingService.getTickerSymbol();
   }
 
@@ -30,6 +31,7 @@ export class SearchComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
+  // Update the ticker symbol in the Trade King Service when the user clicks Submit
   update() {
     this.tradeKingService.updateTickerSymbol(this.tickerSymbol);
   }

@@ -13,10 +13,10 @@
     </tr>
     </thead>
     <tbody dnd-sortable-container [sortableData]="stocks">
-    <tr *ngFor="let stock of stocks; let i = index;" dnd-sortable [sortableIndex]="i">
-      <td (click)="update(stock.symbol)" class="pointer">{{ stock.symbol | uppercase }}</td>
-      <td>{{ stockData[i].last }}</td>
-      <td>{{ stockData[i].open }}</td>
+    <tr *ngFor="let stock of stocks; let i = index;" dnd-sortable [sortableIndex]="i" >
+      <td (click)="update(stock)" class="pointer" *ngIf="stockData.find(stock); else elseBlock">{{ stockData.find(stock).symbol | uppercase }}</td>
+      <td>{{ stockData.find(stock).last }}</td>
+      <td>{{ stockData.find(stock).open }}</td>
       <td dnd-sortable-handle><img src="../../assets/Hamburger_icon.png" class="mobile_hamburger pointer"></td>
     </tr>
     </tbody>
