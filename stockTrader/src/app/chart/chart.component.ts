@@ -3,7 +3,7 @@ import * as Plotly from 'plotly.js';
 import { AlphaVantageService } from "../services/alpha-vantage.service";
 import { TradeKingService } from "../services/trade-king.service";
 import { Subscription } from "rxjs/Subscription";
-import { TradeKingMessageService } from "../services/tradeKingMessage.service";
+import { TradeKingMessageService } from "../services/trade-king-message.service";
 import { AlphaVantageMessageService } from "../services/alpha-vantage-message.service";
 
 @Component({

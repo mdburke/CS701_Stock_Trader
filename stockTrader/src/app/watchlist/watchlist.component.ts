@@ -3,7 +3,7 @@ import { TradeKingService } from "../services/trade-king.service";
 import { StorageService } from "../services/storage.service";
 import { environment } from "../../environments/environment";
 import * as cloneDeep from 'lodash/cloneDeep';
-import { TradeKingMessageService } from "../services/tradeKingMessage.service";
+import { TradeKingMessageService } from "../services/trade-king-message.service";
 import { Subscription } from "rxjs/Subscription";
 import { MessageData } from "../models/MessageData";
 

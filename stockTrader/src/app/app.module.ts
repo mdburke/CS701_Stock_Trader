@@ -8,7 +8,7 @@ import { StockDetailsComponent } from './stock-details/stock-details.component';
 import { SearchComponent } from './search/search.component';
 import { Form, FormsModule } from '@angular/forms';
 import { TradeKingService } from "./services/trade-king.service";
-import { TradeKingMessageService } from "./services/tradeKingMessage.service";
+import { TradeKingMessageService } from "./services/trade-king-message.service";
 import { AlphaVantageService } from "./services/alpha-vantage.service";
 import { HttpClientJsonpModule, HttpClientModule } from "@angular/common/http";
 import { AlphaVantageMessageService } from "./services/alpha-vantage-message.service";

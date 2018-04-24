@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {Subscription} from "rxjs/Subscription";
-import {TickerData} from "../models/TickerData";
-import { TradeKingMessageService } from "../services/tradeKingMessage.service";
-import { TradeKingService } from "../services/trade-king.service";
+import { Subscription } from "rxjs/Subscription";
+import { TickerData } from "../models/TickerData";
+import { TradeKingMessageService } from "../services/trade-king-message.service";
 import { ClockData } from "../models/ClockData";
 import { MessageData } from "../models/MessageData";
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TradeKingService } from "../services/trade-king.service";
 import { Subscription } from 'rxjs/Subscription';
-import { TradeKingMessageService } from "../services/tradeKingMessage.service";
+import { TradeKingMessageService } from "../services/trade-king-message.service";
 import { TickerData } from "../models/TickerData";
 
 @Component({

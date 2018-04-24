@@ -1,4 +1,4 @@
-import { TradeKingMessageService } from "./tradeKingMessage.service";
+import { TradeKingMessageService } from "./trade-king-message.service";
 import {TickerData} from "../models/TickerData";
 import {Injectable} from '@angular/core';
 import * as oauth from 'oauth';
